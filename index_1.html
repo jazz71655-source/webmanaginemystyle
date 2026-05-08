@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>大人の休日 — 京都の海岸 | Adult Holiday — Kyoto Coast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Shippori+Mincho:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===================== CSS VARIABLES ===================== */
+    :root {
+      --ink:       #1a1a1a;
+      --deep:      #0d2233;
+      --ocean:     #1b4f72;
+      --teal:      #2e7d8c;
+      --mist:      #a8c4cc;
+      --sand:      #e8dfc8;
+      --cream:     #f7f3ec;
+      --paper:     #faf8f4;
+      --gold:      #c8a96e;
+      --accent:    #d4563a;
+      --white:     #ffffff;
+
+      --serif-jp:  'Noto Serif JP', 'Shippori Mincho', serif;
+      --serif-en:  'Cormorant Garamond', 'EB Garamond', serif;
+
+      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* ===================== RESET & BASE ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif-jp);
+      line-height: 1.9;
+      overflow-x: hidden;
+    }
+
+    body.lang-en {
+      font-family: var(--serif-en);
+    }
+
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===================== LANG TOGGLE ===================== */
+    .ja { display: block; }
+    .en { display: none; }
+    body.lang-en .ja { display: none; }
+    body.lang-en .en { display: block; }
+
+    /* Inline spans */
+    span.ja { display: inline; }
+    span.en { display: none; }
+    body.lang-en span.ja { display: none; }
+    body.lang-en span.en { display: inline; }
+
+    /* ===================== HEADER NAV ===================== */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 64px;
+      background: rgba(13, 34, 51, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(200,169,110,0.3);
+    }
+
+    .header-logo {
+      font-family: var(--serif-en);
+      font-style: italic;
+      font-size: 1.15rem;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 0.25rem;
+      align-items: center;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid rgba(200,169,110,0.5);
+      color: var(--sand);
+      font-family: var(--serif-en);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      padding: 0.3rem 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: uppercase;
+    }
+
+    .lang-btn.active,
+    .lang-btn:hover {
+      background: var(--gold);
+      color: var(--deep);
+      border-color: var(--gold);
+    }
+
+    /* ===================== HERO ===================== */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 680px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('images/image7.jpg') center center / cover no-repeat;
+      transform: scale(1.04);
+      transition: transform 8s ease-out;
+    }
+
+    .hero-bg.loaded { transform: scale(1); }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(13,34,51,0.15) 0%,
+        rgba(13,34,51,0.25) 40%,
+        rgba(13,34,51,0.75) 80%,
+        rgba(13,34,51,0.92) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 0 6vw 6vh;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--serif-en);
+      font-size: 0.8rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s forwards;
+    }
+
+    .hero-title-ja {
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.15em;
+      line-height: 1.15;
+      opacity: 0;
+      animation: fadeUp 1s 0.5s forwards;
+    }
+
+    .hero-title-en {
+      font-family: var(--serif-en);
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      line-height: 1.2;
+      opacity: 0;
+      animation: fadeUp 1s 0.5s forwards;
+    }
+
+    .hero-subtitle {
+      margin-top: 1.2rem;
+      font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+      font-weight: 300;
+      color: var(--mist);
+      letter-spacing: 0.12em;
+      opacity: 0;
+      animation: fadeUp 1s 0.7s forwards;
+    }
+
+    .hero-subtitle-en {
+      font-family: var(--serif-en);
+      font-style: italic;
+    }
+
+    .hero-styles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 2rem;
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.9s forwards;
+    }
+
+    .hero-style-item {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--sand);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero-style-item::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    /* ===================== SCROLL INDICATOR ===================== */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      right: 3rem;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      opacity: 0;
+      animation: fadeIn 1s 1.2s forwards;
+    }
+
+    .scroll-hint span {
+      font-family: var(--serif-en);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mist);
+      writing-mode: vertical-rl;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s 1.5s infinite;
+    }
+
+    /* ===================== TOC / CHAPTER NAV ===================== */
+    .toc-section {
+      background: var(--deep);
+      padding: 5rem 6vw;
+    }
+
+    .toc-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .toc-label {
+      font-family: var(--serif-en);
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+
+    .toc-title {
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--sand);
+      letter-spacing: 0.2em;
+    }
+
+    .toc-title-en {
+      font-family: var(--serif-en);
+      font-style: italic;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--sand);
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5px;
+      background: rgba(200,169,110,0.2);
+    }
+
+    .toc-card {
+      position: relative;
+      overflow: hidden;
+      background: rgba(13,34,51,0.8);
+      aspect-ratio: 16/9;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .toc-card:hover .toc-card-img {
+      transform: scale(1.08);
+    }
+
+    .toc-card:hover .toc-card-overlay {
+      background: rgba(13,34,51,0.45);
+    }
+
+    .toc-card-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .toc-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(13,34,51,0.6);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+    }
+
+    .toc-card-num {
+      font-family: var(--serif-en);
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+      opacity: 0.7;
+    }
+
+    .toc-card-title {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: 0.08em;
+      line-height: 1.5;
+    }
+
+    .toc-card-title-en {
+      font-family: var(--serif-en);
+      font-style: italic;
+      font-size: 1.05rem;
+    }
+
+    .toc-card-arrow {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(200,169,110,0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 0.75rem;
+      transition: var(--transition);
+    }
+
+    .toc-card:hover .toc-card-arrow {
+      background: var(--gold);
+      color: var(--deep);
+    }
+
+    /* ===================== SECTION COMMON ===================== */
+    .chapter {
+      padding: 8rem 0;
+      scroll-margin-top: 64px;
+    }
+
+    .chapter:nth-child(even) {
+      background: var(--cream);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 6vw;
+    }
+
+    .chapter-num {
+      font-family: var(--serif-en);
+      font-size: 7rem;
+      font-weight: 300;
+      color: rgba(168,196,204,0.25);
+      line-height: 1;
+      margin-bottom: -1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .chapter-label {
+      font-family: var(--serif-en);
+      font-size: 0.72rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.8rem;
+    }
+
+    .chapter-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-weight: 400;
+      color: var(--deep);
+      letter-spacing: 0.12em;
+      line-height: 1.4;
+    }
+
+    .chapter-title-en {
+      font-family: var(--serif-en);
+      font-style: italic;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      font-weight: 300;
+      color: var(--deep);
+      line-height: 1.3;
+    }
+
+    .chapter-divider {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      margin: 1.5rem 0;
+    }
+
+    .chapter-body {
+      font-size: 1.0rem;
+      line-height: 2.0;
+      color: #2c2c2c;
+      font-weight: 300;
+      max-width: 620px;
+    }
+
+    .chapter-body-en {
+      font-family: var(--serif-en);
+      font-size: 1.1rem;
+      line-height: 1.85;
+    }
+
+    .location-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-top: 1.5rem;
+      font-family: var(--serif-en);
+    }
+
+    .location-tag::before {
+      content: '◎';
+      font-size: 0.6rem;
+    }
+
+    /* ===================== LAYOUTS ===================== */
+
+    /* Layout A: Full-bleed image + text overlay (hero-like) */
+    .layout-fullbleed {
+      position: relative;
+      min-height: 560px;
+      display: flex;
+      align-items: center;
+    }
+
+    .layout-fullbleed .bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .layout-fullbleed .bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(13,34,51,0.85) 45%, rgba(13,34,51,0.2) 100%);
+    }
+
+    .layout-fullbleed .text-content {
+      position: relative;
+      z-index: 2;
+      padding: 4rem 6vw;
+      max-width: 600px;
+      color: var(--white);
+    }
+
+    .layout-fullbleed .text-content .chapter-title,
+    .layout-fullbleed .text-content .chapter-title-en {
+      color: var(--white);
+    }
+
+    .layout-fullbleed .text-content .chapter-body,
+    .layout-fullbleed .text-content .chapter-body-en {
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* Layout B: Side-by-side */
+    .layout-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    .layout-split .split-text {
+      padding: 5rem 5vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .layout-split .split-image {
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+    }
+
+    .layout-split .split-image img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .layout-split:hover .split-image img {
+      transform: scale(1.04);
+    }
+
+    /* Layout C: Text + image + map triple */
+    .layout-triple {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .layout-triple .triple-main-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+    }
+
+    /* Map inset */
+    .map-inset {
+      position: relative;
+      border: 1px solid rgba(168,196,204,0.3);
+      overflow: hidden;
+      margin-top: 1.5rem;
+    }
+
+    .map-inset img {
+      width: 100%;
+      display: block;
+    }
+
+    .map-inset-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(13,34,51,0.75);
+      color: var(--mist);
+      font-family: var(--serif-en);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-align: center;
+      padding: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    /* Google Maps embed */
+    .map-embed {
+      width: 100%;
+      height: 280px;
+      border: none;
+      margin-top: 1.5rem;
+      filter: saturate(0.7) contrast(1.05);
+    }
+
+    /* Multi-image mosaic */
+    .mosaic {
+      display: grid;
+      gap: 4px;
+    }
+
+    .mosaic-2 { grid-template-columns: 3fr 2fr; }
+    .mosaic-banner { grid-template-columns: 1fr; }
+
+    .mosaic img {
+      width: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .mosaic-2 img:first-child { aspect-ratio: 4/3; }
+    .mosaic-2 img:last-child  { aspect-ratio: 3/4; }
+
+    /* Panorama strip */
+    .panorama {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      object-position: center 40%;
+      margin-top: 2rem;
+    }
+
+    /* ===================== PULLQUOTE ===================== */
+    .pullquote {
+      border-left: 2px solid var(--gold);
+      padding: 1.2rem 2rem;
+      margin: 2.5rem 0;
+      background: rgba(200,169,110,0.06);
+    }
+
+    .pullquote p {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--ocean);
+      line-height: 1.8;
+      letter-spacing: 0.04em;
+    }
+
+    .pullquote p.en-quote {
+      font-family: var(--serif-en);
+      font-size: 1.25rem;
+    }
+
+    /* ===================== STYLES SIDEBAR ===================== */
+    .styles-list {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .style-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(168,196,204,0.2);
+    }
+
+    .style-num {
+      font-family: var(--serif-en);
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 2.5rem;
+    }
+
+    .style-text {
+      font-size: 0.9rem;
+      color: var(--ink);
+      padding-top: 0.3rem;
+    }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      background: var(--deep);
+      color: var(--mist);
+      padding: 4rem 6vw 3rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--serif-en);
+      font-style: italic;
+      font-size: 1.6rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      opacity: 0.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer-divider {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0 auto 2rem;
+    }
+
+    .footer-copy {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      opacity: 0.45;
+    }
+
+    /* ===================== ANIMATIONS ===================== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 768px) {
+      header { padding: 0 1.5rem; }
+
+      .layout-split { grid-template-columns: 1fr; }
+      .layout-split .split-image { min-height: 300px; position: relative; }
+      .layout-split .split-image img { position: static; width: 100%; height: 300px; }
+
+      .layout-triple { grid-template-columns: 1fr; }
+
+      .mosaic-2 { grid-template-columns: 1fr; }
+      .mosaic-2 img { aspect-ratio: 16/9 !important; }
+
+      .hero-styles { flex-direction: column; gap: 0.5rem; }
+
+      .toc-grid { grid-template-columns: 1fr 1fr; }
+
+      .chapter-num { font-size: 4rem; }
+    }
+
+    @media (max-width: 480px) {
+      .toc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER
+  ============================================================ -->
+  <header>
+    <div class="header-logo">大人の休日 &nbsp;/&nbsp; Adult Holiday</div>
+    <div class="header-nav">
+      <button class="lang-btn active" id="btn-ja" onclick="setLang('ja')">JA</button>
+      <button class="lang-btn"        id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </header>
+
+
+  <!-- ============================================================
+       HERO — Slide 1
+  ============================================================ -->
+  <section class="hero" id="top">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">
+        <span class="ja">Golden Week · 京都の海岸 · 2025</span>
+        <span class="en">Golden Week · Kyoto Coast · 2025</span>
+      </p>
+
+      <h1 class="ja hero-title-ja">大人の休日<br><span style="font-size:0.55em;letter-spacing:0.2em;">京都の海岸</span></h1>
+      <h1 class="en hero-title-en">An Adult's Holiday<br><span style="font-size:0.6em;">Along the Kyoto Coast</span></h1>
+
+      <p class="hero-subtitle ja">舞鶴から伊根、そして京丹後・山陰海岸ジオパークへ</p>
+      <p class="hero-subtitle en hero-subtitle-en">From Maizuru to Ine, and on to the San'in Kinosaki Geopark</p>
+
+      <div class="hero-styles">
+        <div class="hero-style-item">
+          <span class="ja">お金で買えない贅沢の追求</span>
+          <span class="en">Seeking Luxury Money Cannot Buy</span>
+        </div>
+        <div class="hero-style-item">
+          <span class="ja">心の声に忠実に</span>
+          <span class="en">True to the Voice Within</span>
+        </div>
+        <div class="hero-style-item">
+          <span class="ja">トラブルも一種のアトラクション</span>
+          <span class="en">Even Trouble is an Attraction</span>
+        </div>
+        <div class="hero-style-item">
+          <span class="ja">自分を縛らず、計画に縛られず</span>
+          <span class="en">No Rules, No Rigid Plans</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span class="ja">読む</span>
+      <span class="en">Read</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       TABLE OF CONTENTS — Chapter Navigation
+  ============================================================ -->
+  <section class="toc-section">
+    <div class="toc-header">
+      <p class="toc-label">Contents</p>
+      <h2 class="ja toc-title">この旅の記録</h2>
+      <h2 class="en toc-title-en">Journey Log</h2>
+    </div>
+
+    <div class="toc-grid">
+      <!-- Card 1 -->
+      <a href="#ch2" class="toc-card reveal">
+        <img class="toc-card-img" src="images/image11.jpg" alt="舞鶴フェリーターミナル" />
+        <div class="toc-card-overlay">
+          <div class="toc-card-num">01</div>
+          <div class="ja toc-card-title">舞鶴 ─ フェリーと出発</div>
+          <div class="en toc-card-title-en">Maizuru — Ferry & Departure</div>
+        </div>
+        <div class="toc-card-arrow">›</div>
+      </a>
+
+      <!-- Card 2 -->
+      <a href="#ch3" class="toc-card reveal">
+        <img class="toc-card-img" src="images/image8.jpg" alt="神崎海水浴場" />
+        <div class="toc-card-overlay">
+          <div class="toc-card-num">02</div>
+          <div class="ja toc-card-title">神崎 ─ 朝の砂浜を独り占め</div>
+          <div class="en toc-card-title-en">Kanzaki — A Beach All to Myself</div>
+        </div>
+        <div class="toc-card-arrow">›</div>
+      </a>
+
+      <!-- Card 3 -->
+      <a href="#ch4" class="toc-card reveal">
+        <img class="toc-card-img" src="images/image10.jpg" alt="安寿ロマン海道" />
+        <div class="toc-card-overlay">
+          <div class="toc-card-num">03</div>
+          <div class="ja toc-card-title">安寿ロマン海道 ─ 伝説の海</div>
+          <div class="en toc-card-title-en">Anju Roman Kaidō — A Sea of Legend</div>
+        </div>
+        <div class="toc-card-arrow">›</div>
+      </a>
+
+      <!-- Card 4 -->
+      <a href="#ch5" class="toc-card reveal">
+        <img class="toc-card-img" src="images/image12.jpg" alt="伊根の舟屋" />
+        <div class="toc-card-overlay">
+          <div class="toc-card-num">04</div>
+          <div class="ja toc-card-title">伊根 ─ 海に浮かぶ舟屋の村</div>
+          <div class="en toc-card-title-en">Ine — The Funaya Boathouse Village</div>
+        </div>
+        <div class="toc-card-arrow">›</div>
+      </a>
+
+      <!-- Card 5 -->
+      <a href="#ch6" class="toc-card reveal">
+        <img class="toc-card-img" src="images/image9.jpg" alt="山陰海岸ジオパーク" />
+        <div class="toc-card-overlay">
+          <div class="toc-card-num">05</div>
+          <div class="ja toc-card-title">山陰海岸ジオパーク ─ 心のサーフブレーク</div>
+          <div class="en toc-card-title-en">San'in Geopark — Soul's Surf Break</div>
+        </div>
+        <div class="toc-card-arrow">›</div>
+      </a>
+
+      <!-- Card 6: Opening essay -->
+      <a href="#ch1-essay" class="toc-card reveal">
+        <img class="toc-card-img" src="images/image7.jpg" alt="旅のコンセプト" />
+        <div class="toc-card-overlay">
+          <div class="toc-card-num">00</div>
+          <div class="ja toc-card-title">旅のコンセプト ─ お金で買えない贅沢</div>
+          <div class="en toc-card-title-en">The Journey's Spirit — Beyond Price</div>
+        </div>
+        <div class="toc-card-arrow">›</div>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CHAPTER 0 — Opening Essay (Slide 1 body text)
+  ============================================================ -->
+  <section class="chapter" id="ch1-essay">
+    <div class="container">
+      <div class="layout-triple reveal">
+        <div>
+          <div class="chapter-num">00</div>
+          <p class="chapter-label">Prelude</p>
+          <h2 class="ja chapter-title">お金では買えない<br>贅沢を求めて</h2>
+          <h2 class="en chapter-title-en">In Search of<br>a Luxury Beyond Price</h2>
+          <div class="chapter-divider"></div>
+
+          <div class="pullquote">
+            <p class="ja">静けさは贅沢で、孤独は自由で、海は心に余白をくれる。</p>
+            <p class="en en-quote">"Silence is a luxury. Solitude is freedom. The sea gives the heart room to breathe."</p>
+          </div>
+
+          <p class="ja chapter-body">
+            ゴールデンウイーク、人混みを避け、"お金では買えない贅沢"を求めて静かな海へ向かった。豪華な旅ではなく、ただ海を眺める時間こそ大人の休日だと思えたから。思い立つまま愛車で舞鶴方面へ。行き先は決めず、予約もない自由な旅。途中で「伊根湾を見よう」と気が変わり、山陰海岸ジオパークの景色にも惹かれた。GWは町を外れると休業の店が多い。だから弁当を持参し、静けさの中で過ごす。誰にも急かされず、自分のペースで海沿いを走る。大人になってようやく分かる。
+          </p>
+          <p class="en chapter-body chapter-body-en">
+            During Golden Week, instead of joining the crowds, I set out toward a quiet sea — in pursuit of a luxury no money can buy. Not a lavish trip, but one where simply sitting and watching the waves felt like the truest kind of adult holiday. On impulse, I pointed my car toward Maizuru with no destination locked in and no reservations made. Midway, a whim led me to Ine Bay; the dramatic coastline of the San'in Geopark then pulled me further west. Away from the towns, most shops stood shuttered for the holiday — so I packed a bento and savoured the stillness. No one to hurry me. My own pace along the shore. It takes growing up to understand: silence is a luxury, and the sea is the most generous space-maker of all.
+          </p>
+
+          <div class="styles-list">
+            <div class="style-item">
+              <div class="style-num">1</div>
+              <div>
+                <div class="ja style-text">お金で買えない贅沢の追求</div>
+                <div class="en style-text">Seeking Luxury Money Cannot Buy</div>
+              </div>
+            </div>
+            <div class="style-item">
+              <div class="style-num">2</div>
+              <div>
+                <div class="ja style-text">心の声に忠実に</div>
+                <div class="en style-text">True to the Voice Within</div>
+              </div>
+            </div>
+            <div class="style-item">
+              <div class="style-num">3</div>
+              <div>
+                <div class="ja style-text">トラブルも一種のアトラクション</div>
+                <div class="en style-text">Even Trouble is an Attraction</div>
+              </div>
+            </div>
+            <div class="style-item">
+              <div class="style-num">4</div>
+              <div>
+                <div class="ja style-text">自分を縛らず、計画に縛られず</div>
+                <div class="en style-text">No Rules, No Rigid Plans</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <img class="triple-main-img reveal" src="images/image7.jpg" alt="京都の海岸" style="width:100%;aspect-ratio:3/4;object-fit:cover;" />
+          <div class="map-inset reveal">
+            <iframe class="map-embed"
+              src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d208527.5!2d135.5!3d35.65!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x5ff89e90a9c3b28d%3A0x7a7d1b9e9e9e9e9e!2z6IKJ6bq7!3m2!1d35.4736!2d135.3263!4m5!1s0x5ff8b0e5a1e3c2e1%3A0x8b8d1b9e9e9e9e9e!2z5L2Q!3m2!1d35.6731!2d135.2614!5e0!3m2!1sja!2sjp!4v1700000000000"
+              allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              title="Route map">
+            </iframe>
+            <div class="map-inset-label">Route: Maizuru → Ine → San'in Geopark</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CHAPTER 1 — Slide 2: Maizuru Ferry
+  ============================================================ -->
+  <section class="chapter" id="ch2" style="padding:0;">
+    <div class="layout-fullbleed reveal">
+      <img class="bg-image" src="images/image11.jpg" alt="新日本海フェリー" />
+      <div class="bg-overlay"></div>
+      <div class="text-content">
+        <div class="chapter-num" style="color:rgba(200,169,110,0.3);">01</div>
+        <p class="chapter-label" style="color:var(--mist);">Maizuru</p>
+        <h2 class="ja chapter-title">舞鶴から<br>海路のロマン</h2>
+        <h2 class="en chapter-title-en">Maizuru —<br>The Romance of the Sea Route</h2>
+        <div class="chapter-divider"></div>
+        <p class="ja chapter-body" style="color:rgba(255,255,255,0.85);">
+          舞鶴から小樽へ向かうフェリー。赤レンガ倉庫という共通点を持つ二つの街。だが、今は京都が最高の季節。初夏を味わうならやはり京都の海岸だ。今回は舞鶴から山陰へのドライブルートを選ぶ。新しい旅の始まりが、静かな心の振動をもたらす。
+        </p>
+        <p class="en chapter-body chapter-body-en" style="color:rgba(255,255,255,0.85);">
+          Maizuru is where the ferry departs for Otaru — two cities bonded by their red-brick warehouses. But today is not about Hokkaido. Early summer belongs to the Kyoto coast. I choose the coastal drive from Maizuru toward the San'in region instead. As the ferry terminal shrinks in my rear-view mirror, a quiet tremor of anticipation settles in.
+        </p>
+        <p class="location-tag" style="color:var(--mist);">新日本海フェリー 小樽行 乗船待機レーン</p>
+      </div>
+    </div>
+
+    <!-- Map below fullbleed -->
+    <div class="container" style="padding-top:3rem;padding-bottom:4rem;">
+      <div class="map-inset reveal" style="max-width:500px;">
+        <img src="images/image3.png" alt="舞鶴ルートマップ" />
+        <div class="map-inset-label">Maizuru → Anjū Roman Kaidō (route overview)</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CHAPTER 2 — Slide 3: Kanzaki Beach
+  ============================================================ -->
+  <section class="chapter" id="ch3">
+    <div class="container">
+      <div class="layout-split reveal">
+        <div class="split-text">
+          <div class="chapter-num">02</div>
+          <p class="chapter-label">Kanzaki Beach</p>
+          <h2 class="ja chapter-title">朝の海岸を<br>独り占め</h2>
+          <h2 class="en chapter-title-en">A Morning Beach<br>All to Myself</h2>
+          <div class="chapter-divider"></div>
+
+          <div class="pullquote">
+            <p class="ja">海岸線と車中が、自分だけの特別なCAFEになる。</p>
+            <p class="en en-quote">"The shoreline and the car become your own private café."</p>
+          </div>
+
+          <p class="ja chapter-body">
+            早朝の神崎海水浴場。舞鶴から最も近い浜辺。釣り客が一組いるだけの、静寂に包まれた朝の７時半の砂浜。コンビニで買ったコーヒーを片手に海を眺める。静かな時間に物思いにふける自分を取り戻すひと時。
+          </p>
+          <p class="en chapter-body chapter-body-en">
+            Kanzaki Beach at dawn — the closest stretch of sand to Maizuru. At 7:30 a.m., only a single fishing pair shares the silence with me. Convenience-store coffee in hand, I face the sea and do nothing in particular. In this quiet, I rediscover the self I'd misplaced somewhere in the rush of daily life.
+          </p>
+          <p class="location-tag">＠神崎海水浴場 · Kanzaki Beach</p>
+        </div>
+
+        <div class="split-image">
+          <img src="images/image8.jpg" alt="神崎海水浴場の朝" />
+        </div>
+      </div>
+
+      <div class="map-inset reveal" style="max-width:400px;margin-top:3rem;">
+        <img src="images/image6.png" alt="神崎エリアマップ" />
+        <div class="map-inset-label">Kanzaki · Maizuru area</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CHAPTER 3 — Slide 4: Anju Roman Kaido
+  ============================================================ -->
+  <section class="chapter" id="ch4" style="padding:0;background:var(--deep);">
+    <div style="padding:5rem 0 0;">
+      <div class="container reveal">
+        <div class="chapter-num" style="color:rgba(200,169,110,0.2);">03</div>
+        <p class="chapter-label" style="color:var(--mist);">Anju Roman Kaidō</p>
+        <h2 class="ja chapter-title" style="color:var(--white);">悲劇を感じさせない、<br>静かな海</h2>
+        <h2 class="en chapter-title-en" style="color:var(--white);">A Quiet Sea That<br>Betrays No Tragedy</h2>
+        <div class="chapter-divider"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;">
+      <img src="images/image10.jpg" alt="安寿ロマン海道" style="width:100%;height:420px;object-fit:cover;object-position:center 35%;" />
+    </div>
+
+    <div class="container" style="padding-top:3.5rem;padding-bottom:5rem;">
+      <div class="layout-triple reveal">
+        <div>
+          <p class="ja chapter-body" style="color:rgba(255,255,255,0.82);">
+            安寿ロマン海道。舞鶴市の由良川沿いに残る、安寿姫と厨子王の悲劇の伝説ゆかりの地。「山椒大夫」の物語の舞台として知られるこのエリアは、かつて奴隷として売られた姉弟の悲しい記憶を秘めている。しかし今、目の前に広がる海は穏やかで、その歴史的な悲劇を微塵も感じさせない。歴史に想いを馳せながら、海岸線の絶景をドライブする。
+          </p>
+          <p class="en chapter-body chapter-body-en" style="color:rgba(255,255,255,0.82);">
+            The Anjū Roman Kaidō follows the Yura River in Maizuru — sacred ground linked to the tragic legend of Lady Anjū and her brother Zushiō, protagonists of the classic tale <em>Sanshō Dayū</em>. This is where the siblings were sold into servitude, their story one of Japan's most heart-rending. And yet, the sea stretching before me is utterly serene, utterly unburdened by history. I drive the coastal road, letting memory and beauty coexist in silence.
+          </p>
+          <p class="location-tag" style="color:var(--mist);">安寿ロマン海道 · Anjū Roman Kaidō</p>
+        </div>
+
+        <div>
+          <div class="map-inset">
+            <img src="images/image2.png" alt="安寿ロマン海道マップ" />
+            <div class="map-inset-label">Anjū Roman Kaidō — Maizuru to Ine</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CHAPTER 4 — Slide 5: Ine Funaya
+  ============================================================ -->
+  <section class="chapter" id="ch5">
+    <div class="container">
+      <div class="chapter-num reveal">04</div>
+      <div class="layout-triple reveal">
+        <div>
+          <p class="chapter-label">Ine, Kyoto</p>
+          <h2 class="ja chapter-title">伊根の船宿 ─<br>海に浮かぶ暮らし</h2>
+          <h2 class="en chapter-title-en">Ine's Funaya —<br>Life Afloat</h2>
+          <div class="chapter-divider"></div>
+
+          <div class="pullquote">
+            <p class="ja">海は青とエメラルドグリーンで、船宿から見る景色は心を洗います。</p>
+            <p class="en en-quote">"The sea glows blue and emerald green; the view from the funaya washes the soul clean."</p>
+          </div>
+
+          <p class="ja chapter-body">
+            海際に立ち並ぶ家々。まるで海に浮かんでいるようにも見えます。伊根湾の沿岸にはこのような「舟屋」と呼ばれる建屋が約230軒。丹後半島の東端に位置するこの静かな漁村は、重要伝統的建造物群保存地区にも指定された、日本で最も美しい村の一つです。
+          </p>
+          <p class="en chapter-body chapter-body-en">
+            Row upon row of houses perched at the water's edge — they seem almost to float on the bay. Around 230 of these <em>funaya</em> (boathouses) line the shores of Ine Bay, their ground floors serving as garages for fishing boats. Nestled at the eastern tip of the Tango Peninsula, Ine has been designated an Important Preservation District for Historic Buildings and is widely considered one of Japan's most beautiful villages.
+          </p>
+          <p class="location-tag">伊根町観光協会周辺 · Ine, Kyoto</p>
+        </div>
+
+        <div>
+          <div class="mosaic mosaic-2 reveal">
+            <img src="images/image12.jpg" alt="伊根の舟屋" />
+            <img src="images/image13.jpg" alt="伊根湾" />
+          </div>
+          <div class="map-inset reveal">
+            <img src="images/image1.png" alt="伊根マップ" />
+            <div class="map-inset-label">Ine Town · Tango Peninsula</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panorama strip -->
+      <img class="panorama reveal" src="images/image5.png" alt="伊根湾パノラマ" />
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CHAPTER 5 — Slide 6: San'in Geopark
+  ============================================================ -->
+  <section class="chapter" id="ch6" style="padding:0;overflow:hidden;">
+    <div style="position:relative;height:60vh;min-height:420px;overflow:hidden;">
+      <img src="images/image9.jpg" alt="山陰海岸ジオパーク" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;" />
+      <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,34,51,0.1),rgba(13,34,51,0.7));"></div>
+      <div style="position:absolute;bottom:3rem;left:6vw;right:6vw;">
+        <div class="chapter-num" style="color:rgba(200,169,110,0.4);">05</div>
+        <p class="chapter-label" style="color:var(--mist);">San'in Coast Geopark</p>
+        <h2 class="ja chapter-title" style="color:var(--white);">心のサーフブレーク ─<br>山陰海岸ジオパーク</h2>
+        <h2 class="en chapter-title-en" style="color:var(--white);">Soul's Surf Break —<br>The San'in Coast Geopark</h2>
+      </div>
+    </div>
+
+    <div class="container" style="padding-top:4rem;padding-bottom:6rem;">
+      <div class="layout-triple reveal">
+        <div>
+          <div class="chapter-divider"></div>
+          <p class="ja chapter-body">
+            伊根を後にし、世界ジオパークにも認定された雄大な海岸線へ。日本海形成の歴史を伝える地質遺産が続く。ハワイで過ごすような開放感。美しく厳しい自然の造形美を駆け抜ける。旅の締めくくりは、丹後松島の絶景。長く続く海岸線の旅が、深い満足感と共に幕を閉じる。無理しない。求めすぎない自分の時間。
+          </p>
+          <p class="en chapter-body chapter-body-en">
+            Leaving Ine behind, the road opens onto the sweeping coastline of the San'in Kinosaki UNESCO Global Geopark. Geological monuments narrate the ancient birth of the Sea of Japan. The air feels like Hawaii — boundless, salt-bright, free. The journey ends at Tango Matsushima, where the sea stacks and pine-clad outcrops echo Matsushima in Miyagi, only wilder. The coastline road closes with deep satisfaction. No forcing. No over-reaching. Simply one's own time.
+          </p>
+          <p class="location-tag">＠丹後松島 · Tango Matsushima</p>
+        </div>
+
+        <div>
+          <div class="map-inset reveal">
+            <img src="images/image4.png" alt="山陰海岸ジオパークマップ" />
+            <div class="map-inset-label">San'in Coast Geopark · Tango Matsushima</div>
+          </div>
+          <div style="margin-top:1.5rem;">
+            <iframe class="map-embed"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52123.0!2d135.1!3d35.75!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff92b9b0f0f0f0f%3A0x0!2z5LiJ5b6M5p2c5bO2!5e0!3m2!1sja!2sjp!4v1700000000000"
+              allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              title="San'in Geopark map">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="footer-logo">大人の休日</div>
+    <p class="footer-tagline ja">京都の海岸 · 舞鶴から伊根そして山陰海岸ジオパークへ</p>
+    <p class="footer-tagline en">Kyoto Coast · Maizuru to Ine and the San'in Geopark</p>
+    <div class="footer-divider"></div>
+    <p class="footer-copy">© 2025 &nbsp;|&nbsp; Web Magazine &nbsp;|&nbsp; Golden Week</p>
+  </footer>
+
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* --- Language toggle (URL param + body class) --- */
+    function setLang(lang) {
+      document.body.className = lang === 'en' ? 'lang-en' : '';
+      document.getElementById('btn-ja').classList.toggle('active', lang !== 'en');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      const url = new URL(window.location);
+      if (lang === 'en') {
+        url.searchParams.set('lang', 'en');
+      } else {
+        url.searchParams.delete('lang');
+      }
+      history.replaceState(null, '', url);
+    }
+
+    // Read lang param on load
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('lang') === 'en') setLang('en');
+    })();
+
+    /* --- Hero image Ken Burns --- */
+    window.addEventListener('load', function () {
+      const bg = document.getElementById('heroBg');
+      bg.style.backgroundImage = "url('images/image7.jpg')";
+      setTimeout(() => bg.classList.add('loaded'), 100);
+    });
+
+    /* --- Scroll reveal --- */
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* --- TOC card smooth scroll --- */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
